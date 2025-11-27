@@ -34,11 +34,11 @@
             <div class="checkout-summary">
                 <h3>Order Summary</h3>
                 @php $total = 0 @endphp
-                @foreach(session('cart') as $id => $details)
-                    @php $total += $details['price'] * $details['quantity'] @endphp
+                @foreach($cartItems as $item)
+                    @php $total += $item->product->price * $item->quantity @endphp
                     <div class="summary-item">
-                        <span>{{ $details['name'] }} x {{ $details['quantity'] }}</span>
-                        <span>₱{{ number_format($details['price'] * $details['quantity'], 2) }}</span>
+                        <span>{{ $item->product->name }} x {{ $item->quantity }}</span>
+                        <span>₱{{ number_format($item->product->price * $item->quantity, 2) }}</span>
                     </div>
                 @endforeach
                 <div class="summary-total">

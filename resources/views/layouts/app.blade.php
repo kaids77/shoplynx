@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Shoplynx</title>
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="{{ asset('js/cart.js') }}" defer></script>
 </head>
+
 <body>
     <header>
         <div class="container">
@@ -24,8 +28,8 @@
                     @auth
                         <a href="{{ route('cart.index') }}" class="btn btn-outline cart-btn">
                             🛒 Cart
-                            @if(session('cart') && count(session('cart')) > 0)
-                                <span class="cart-badge">{{ count(session('cart')) }}</span>
+                            @if(Auth::user()->cartItems()->count() > 0)
+                                <span class="cart-badge">{{ Auth::user()->cartItems()->count() }}</span>
                             @endif
                         </a>
                         <a href="{{ route('orders.index') }}" class="btn btn-outline">My Orders</a>
@@ -67,4 +71,5 @@
         </div>
     </footer>
 </body>
+
 </html>

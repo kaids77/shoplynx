@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -13,38 +14,54 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = session()->get('cart', []);
-        return view('cart.index', compact('cart'));
+        $cartItems = Auth::user()->cartItems()->with('product')->get();
+        return view('cart.index', compact('cartItems'));
     }
 
     public function add($id)
     {
         $product = Product::findOrFail($id);
-        $cart = session()->get('cart', []);
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+        $cartItem = CartItem::where('user_id', Auth::id())
+            ->where('product_id', $id)
+            ->first();
+
+        if ($cartItem) {
+            $cartItem->quantity++;
+            $cartItem->save();
         } else {
-            $cart[$id] = [
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-                "image_path" => $product->image_path
-            ];
+            CartItem::create([
+                'user_id' => Auth::id(),
+                'product_id' => $id,
+                'quantity' => 1,
+            ]);
         }
 
-        session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
     public function update(Request $request)
     {
         if ($request->id && $request->quantity) {
-            $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
-            session()->put('cart', $cart);
-            session()->flash('success', 'Cart updated successfully');
+            $cartItem = CartItem::where('user_id', Auth::id())
+                ->where('product_id', $request->id)
+                ->first();
+
+            if ($cartItem) {
+                $cartItem->quantity = $request->quantity;
+                $cartItem->save();
+
+                // Return JSON for AJAX requests
+                if ($request->expectsJson()) {
+                    return response()->json(['success' => true, 'message' => 'Cart updated successfully']);
+                }
+
+                session()->flash('success', 'Cart updated successfully');
+                return response()->json(['success' => true]);
+            }
         }
+
+        return response()->json(['success' => false, 'message' => 'Invalid request']);
     }
 
     public function remove(Request $request)
@@ -52,11 +69,9 @@ class CartController extends Controller
         $id = $request->input('id');
 
         if ($id) {
-            $cart = session()->get('cart');
-            if (isset($cart[$id])) {
-                unset($cart[$id]);
-                session()->put('cart', $cart);
-            }
+            CartItem::where('user_id', Auth::id())
+                ->where('product_id', $id)
+                ->delete();
         }
 
         return redirect()->route('cart.index')->with('success', 'Product removed from cart successfully!');
@@ -64,11 +79,13 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $cart = session()->get('cart', []);
-        if (empty($cart)) {
+        $cartItems = Auth::user()->cartItems()->with('product')->get();
+
+        if ($cartItems->isEmpty()) {
             return redirect()->route('products.index')->with('error', 'Your cart is empty.');
         }
-        return view('checkout');
+
+        return view('checkout', compact('cartItems'));
     }
 
     public function processCheckout(Request $request)
@@ -81,13 +98,18 @@ class CartController extends Controller
             'payment_method' => 'required|string',
         ]);
 
-        $cart = session()->get('cart', []);
-        $total = 0;
-        foreach ($cart as $id => $details) {
-            $total += $details['price'] * $details['quantity'];
+        $cartItems = Auth::user()->cartItems()->with('product')->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('products.index')->with('error', 'Your cart is empty.');
         }
 
-        DB::transaction(function () use ($request, $total, $cart) {
+        $total = 0;
+        foreach ($cartItems as $item) {
+            $total += $item->product->price * $item->quantity;
+        }
+
+        DB::transaction(function () use ($request, $total, $cartItems) {
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'customer_name' => $request->customer_name,
@@ -99,17 +121,18 @@ class CartController extends Controller
                 'shipping_address' => $request->shipping_address,
             ]);
 
-            foreach ($cart as $id => $details) {
+            foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $id,
-                    'quantity' => $details['quantity'],
-                    'price' => $details['price'],
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->product->price,
                 ]);
             }
-        });
 
-        session()->forget('cart');
+            // Clear cart after order is placed
+            Auth::user()->cartItems()->delete();
+        });
 
         return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
