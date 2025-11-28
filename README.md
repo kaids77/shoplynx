@@ -1,4 +1,4 @@
-# 🛍️ Shoplynx - Modern E-Commerce Platform
+# Shoplynx - Modern E-Commerce Platform
 
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
@@ -6,9 +6,9 @@
 
 A fully functional, modern e-commerce platform built with Laravel 12. Shoplynx features a clean, professional UI with a complete admin panel for product management, user authentication, shopping cart functionality, order processing, and transaction tracking.
 
-## ✨ Features
+## Features
 
-### 🎨 User Features
+### User Features
 - **Modern Landing Page** - Professional introduction with company overview
 - **User Authentication** - Secure registration and login system with role-based access
 - **Product Browsing** - View all products with detailed information, search functionality, and beautiful card layouts
@@ -21,7 +21,7 @@ A fully functional, modern e-commerce platform built with Laravel 12. Shoplynx f
 - **User Profile Settings** - Update account information (name, email, password, profile image)
 - **Responsive Design** - Clean, modern UI with card shadows and smooth animations
 
-### 👨‍💼 Admin Features
+### Admin Features
 - **Admin Dashboard** - Statistics overview (Total Products, Orders, Customers)
 - **Product Management** - Full CRUD operations for products with stock quantity tracking
 - **Image Upload** - Upload and manage product images
@@ -30,7 +30,7 @@ A fully functional, modern e-commerce platform built with Laravel 12. Shoplynx f
 - **Transaction Tracking** - Automatic transaction description updates based on order status
 - **Secure Access** - Protected admin routes with middleware
 
-### 🔐 Security
+### Security
 - Role-based access control (User/Admin)
 - Password hashing with bcrypt
 - CSRF protection
@@ -39,7 +39,7 @@ A fully functional, modern e-commerce platform built with Laravel 12. Shoplynx f
 - Prevent back-history after logout
 - Server-side validation for checkout data
 
-### 💳 Transaction System
+### Transaction System
 - **Automated Transaction Creation** - Transactions automatically created on order placement
 - **Status Tracking** - Transaction descriptions update based on order status:
   - Pending: "Payment for Order #X"
@@ -49,7 +49,7 @@ A fully functional, modern e-commerce platform built with Laravel 12. Shoplynx f
 - **Transaction Filtering** - Filter by type, status, and date range
 - **Statistics Dashboard** - View total spent and total transactions
 
-## 🎯 Key Improvements
+## Key Improvements
 
 ### Product Display
 - **Stock Quantity Display** - Real-time stock levels shown on product cards
@@ -75,7 +75,7 @@ A fully functional, modern e-commerce platform built with Laravel 12. Shoplynx f
 - **Pagination** - Bootstrap 5 pagination with proper styling
 - **Secure Checkout** - Customer name and email sourced from authenticated user profile
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -186,7 +186,7 @@ php artisan serve
 
 The application will be available at: `http://localhost:8000`
 
-## 🎯 Usage
+## Usage
 
 ### Accessing the Application
 
@@ -253,7 +253,7 @@ The application will be available at: `http://localhost:8000`
 - Upload product images
 - Track stock levels
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 shoplynx/
@@ -307,7 +307,7 @@ shoplynx/
     └── web.php                             # Application routes
 ```
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Backend Framework**: Laravel 12.x
 - **Frontend**: Blade Templates, Vanilla CSS
@@ -317,7 +317,7 @@ shoplynx/
 - **Image Storage**: Public disk storage
 - **Pagination**: Bootstrap 5
 
-## 🎨 Design Philosophy
+## Design Philosophy
 
 Shoplynx follows modern web design principles:
 - **Minimalist Black & White Theme** - Professional and clean aesthetic
@@ -328,7 +328,7 @@ Shoplynx follows modern web design principles:
 - **Visual Hierarchy** - Clear separation with borders and shadows
 - **Color-Coded Status** - Green for completed, red for cancelled transactions
 
-## 📝 Database Schema
+## Database Schema
 
 ### Users Table
 - `id` - Primary key
@@ -389,7 +389,7 @@ Shoplynx follows modern web design principles:
 - `description` - Transaction description (updates with order status)
 - `timestamps`
 
-## 🚦 Routes
+## Routes
 
 ### Public Routes
 - `GET /` - Landing page
@@ -427,7 +427,7 @@ Shoplynx follows modern web design principles:
 - `PUT /admin/orders/{id}/status` - Update order status
 - `GET /admin/customers` - Customer list
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -463,11 +463,11 @@ This has been fixed by configuring Bootstrap 5 pagination in `AppServiceProvider
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-## 👨‍💻 Author
+## Author
 
-Created with ❤️ for educational purposes and demonstration.
+Created with  for educational purposes and demonstration.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Laravel Framework
 - Bootstrap 5 Pagination
