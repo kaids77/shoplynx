@@ -1,126 +1,172 @@
-# Release Notes
+# Changelog
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v12.10.0...12.x)
+All notable changes to the Shoplynx E-Commerce Platform will be documented in this file.
 
-## [v12.10.0](https://github.com/laravel/laravel/compare/v12.9.1...v12.10.0) - 2025-11-04
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-* Add background driver by [@barryvdh](https://github.com/barryvdh) in https://github.com/laravel/laravel/pull/6699
+## [1.5.0] - 2025-11-28
 
-## [v12.9.1](https://github.com/laravel/laravel/compare/v12.9.0...v12.9.1) - 2025-10-23
+### Added
+- **Admin Order Management System**
+  - Admin panel for viewing all orders
+  - Manual order status updates (Pending, Shipped, Completed, Cancelled)
+  - Automatic transaction description updates when order status changes
+  - Stock restoration when orders are cancelled by admin
+  - Orders link in admin navigation menu
 
-* [12.x] Replace Bootcamp with Laravel Learn by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6692
-* [12.x] Comment out CLI workers for fresh applications by [@timacdonald](https://github.com/timacdonald) in https://github.com/laravel/laravel/pull/6693
+### Changed
+- **Removed Automated Order Status System**
+  - Removed automatic timer-based status transitions
+  - Removed countdown timers from user order view
+  - Simplified order cancellation to status-based only (no time restrictions)
+  - Removed `UpdateOrderStatuses` command scheduler
 
-## [v12.9.0](https://github.com/laravel/laravel/compare/v12.8.0...v12.9.0) - 2025-10-21
+### Fixed
+- **Pagination Display Issues**
+  - Configured Bootstrap 5 pagination in `AppServiceProvider`
+  - Fixed oversized SVG arrows in pagination
+  - Added custom pagination CSS for consistent styling
+  - Pagination now displays properly across all pages
 
-**Full Changelog**: https://github.com/laravel/laravel/compare/v12.8.0...v12.9.0
+- **Transaction History UI**
+  - Removed duplicate success notifications
+  - Removed transaction type and status badges
+  - Added color-coded descriptions (green for Completed, red for Cancelled)
+  - Cleaner, more focused transaction display
 
-## [v12.8.0](https://github.com/laravel/laravel/compare/v12.7.1...v12.8.0) - 2025-10-20
+- **Transaction Status Updates**
+  - Fixed transaction description not updating when order status changed to Pending
+  - Transaction descriptions now correctly reflect all order status changes
 
-* [12.x] Makes test suite using broadcast's `null` driver by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/laravel/pull/6691
+## [1.4.0] - 2025-11-27
 
-## [v12.7.1](https://github.com/laravel/laravel/compare/v12.7.0...v12.7.1) - 2025-10-15
+### Added
+- **Product Search Functionality**
+  - Search bar in navigation
+  - Search by product name or description
+  - Display search results count
+  - "No products found" message for empty results
 
-* Added `failover` driver to the `queue` config comment.  by [@sajjadhossainshohag](https://github.com/sajjadhossainshohag) in https://github.com/laravel/laravel/pull/6688
+### Changed
+- Product listing now supports search queries
+- Updated `ProductController` to handle search filtering
 
-## [v12.7.0](https://github.com/laravel/laravel/compare/v12.6.0...v12.7.0) - 2025-10-14
+## [1.3.0] - 2025-11-26
 
-**Full Changelog**: https://github.com/laravel/laravel/compare/v12.6.0...v12.7.0
+### Added
+- **Stock Management System**
+  - Stock quantity field for products
+  - Real-time stock display on product cards
+  - Out-of-stock badges and indicators
+  - Disabled "Add to Cart" button for out-of-stock items
+  - Stock quantity validation in admin panel
+  - Stock restoration on order cancellation
 
-## [v12.6.0](https://github.com/laravel/laravel/compare/v12.5.0...v12.6.0) - 2025-10-02
+- **Transaction System**
+  - Transaction model and database table
+  - Automatic transaction creation on order placement
+  - Transaction history page with filtering
+  - Filter by transaction type, status, and date range
+  - Transaction statistics (Total Spent, Total Transactions)
+  - Removed Pending Amount and Total Refunded stats
 
-* Fix setup script by [@goldmont](https://github.com/goldmont) in https://github.com/laravel/laravel/pull/6682
+- **Order Cancellation**
+  - Users can cancel pending orders
+  - Automatic stock restoration when orders are cancelled
+  - Transaction description updates to "Cancelled"
+  - Time-based cancellation window (2 minutes = 2 days simulation)
 
-## [v12.5.0](https://github.com/laravel/laravel/compare/v12.4.0...v12.5.0) - 2025-09-30
+### Changed
+- **Checkout Security Enhancement**
+  - Customer name and email now read-only at checkout
+  - Data sourced from authenticated user profile
+  - Server-side validation prevents data tampering
 
-* [12.x] Fix type casting for environment variables in config files by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6670
-* Fix CVEs affecting vite by [@faissaloux](https://github.com/faissaloux) in https://github.com/laravel/laravel/pull/6672
-* Update .editorconfig to target compose.yaml by [@fredikaputra](https://github.com/fredikaputra) in https://github.com/laravel/laravel/pull/6679
-* Add pre-package-uninstall script to composer.json by [@cosmastech](https://github.com/cosmastech) in https://github.com/laravel/laravel/pull/6681
+- **Home Page Design**
+  - Reverted to original product card layout
+  - Image displayed above product details
+  - Improved visual hierarchy
 
-## [v12.4.0](https://github.com/laravel/laravel/compare/v12.3.1...v12.4.0) - 2025-08-29
+### Fixed
+- Product creation and editing forms restored with all fields
+- Cart view displays stock quantity for each item
+- Checkout form properly displays user information
 
-* [12.x] Add default Redis retry configuration by [@mateusjatenee](https://github.com/mateusjatenee) in https://github.com/laravel/laravel/pull/6666
+## [1.2.0] - 2025-11-25
 
-## [v12.3.1](https://github.com/laravel/laravel/compare/v12.3.0...v12.3.1) - 2025-08-21
+### Added
+- **User Profile Management**
+  - Profile settings page
+  - Update name and email
+  - Change password functionality
+  - Upload and update profile image
+  - Form validation for all profile updates
 
-* [12.x] Bump Pint version by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6653
-* [12.x] Making sure all related processed are closed when terminating the currently command by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6654
-* [12.x] Use application name from configuration by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6655
-* Bring back postAutoloadDump script by [@jasonvarga](https://github.com/jasonvarga) in https://github.com/laravel/laravel/pull/6662
+- **Customer Management (Admin)**
+  - View all registered customers
+  - Display customer details (name, email, phone, address)
+  - Customer count in admin dashboard
 
-## [v12.3.0](https://github.com/laravel/laravel/compare/v12.2.0...v12.3.0) - 2025-08-03
+### Changed
+- Enhanced user navigation with Settings link
+- Improved admin dashboard statistics
 
-* Fix Critical Security Vulnerability in form-data Dependency by [@izzygld](https://github.com/izzygld) in https://github.com/laravel/laravel/pull/6645
-* Revert "fix" by [@RobertBoes](https://github.com/RobertBoes) in https://github.com/laravel/laravel/pull/6646
-* Change composer post-autoload-dump script to Artisan command by [@lmjhs](https://github.com/lmjhs) in https://github.com/laravel/laravel/pull/6647
+## [1.1.0] - 2025-11-24
 
-## [v12.2.0](https://github.com/laravel/laravel/compare/v12.1.0...v12.2.0) - 2025-07-11
+### Added
+- **Order Management System**
+  - Order history page for users
+  - Track order status (Pending, Completed)
+  - View order details (items, total, customer info)
+  - Order creation on checkout
+  - Order items relationship
 
-* Add Vite 7 support by [@timacdonald](https://github.com/timacdonald) in https://github.com/laravel/laravel/pull/6639
+- **Admin Dashboard Enhancements**
+  - Recent orders display (last 10 orders)
+  - Order statistics
+  - Customer information in order view
 
-## [v12.1.0](https://github.com/laravel/laravel/compare/v12.0.11...v12.1.0) - 2025-07-03
+### Changed
+- Improved checkout flow with order creation
+- Enhanced cart functionality
 
-* [12.x] Disable nightwatch in testing by [@laserhybiz](https://github.com/laserhybiz) in https://github.com/laravel/laravel/pull/6632
-* [12.x] Reorder environment variables in phpunit.xml for logical grouping by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6634
-* Change to hyphenate prefixes and cookie names by [@u01jmg3](https://github.com/u01jmg3) in https://github.com/laravel/laravel/pull/6636
-* [12.x] Fix type casting for environment variables in config files by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6637
+## [1.0.0] - 2025-11-23
 
-## [v12.0.11](https://github.com/laravel/laravel/compare/v12.0.10...v12.0.11) - 2025-06-10
+### Added
+- **Initial Release**
+- User authentication (registration and login)
+- Role-based access control (User/Admin)
+- Product browsing and display
+- Shopping cart functionality
+- Checkout system with multiple payment methods
+- Admin dashboard with statistics
+- Product management (CRUD operations)
+- Image upload for products
+- Responsive design with modern UI
+- Security features (CSRF, password hashing, middleware)
+- Prevent back-history after logout
 
-**Full Changelog**: https://github.com/laravel/laravel/compare/v12.0.10...v12.0.11
+### Features
+- Landing page with company overview
+- Product cards with shadows and hover effects
+- Cart badge showing item count
+- Admin product management
+- User profile display
+- Session management
+- Clean, minimalist black & white theme
 
-## [v12.0.10](https://github.com/laravel/laravel/compare/v12.0.9...v12.0.10) - 2025-06-09
+---
 
-* fix alphabetical order by [@Khuthaily](https://github.com/Khuthaily) in https://github.com/laravel/laravel/pull/6627
-* [12.x] Reduce redundancy and keeps the .gitignore file cleaner by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6629
-* [12.x] Fix: Add void return type to satisfy Rector analysis by [@Aluisio-Pires](https://github.com/Aluisio-Pires) in https://github.com/laravel/laravel/pull/6628
+## Version History Summary
 
-## [v12.0.9](https://github.com/laravel/laravel/compare/v12.0.8...v12.0.9) - 2025-05-26
+- **v1.5.0** - Admin order management, removed automation, fixed pagination
+- **v1.4.0** - Product search functionality
+- **v1.3.0** - Stock management, transactions, order cancellation
+- **v1.2.0** - User profiles, customer management
+- **v1.1.0** - Order system, admin dashboard enhancements
+- **v1.0.0** - Initial release with core e-commerce features
 
-* [12.x] Remove apc by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6611
-* [12.x] Add JSON Schema to package.json by [@martinbean](https://github.com/martinbean) in https://github.com/laravel/laravel/pull/6613
-* Minor language update by [@woganmay](https://github.com/woganmay) in https://github.com/laravel/laravel/pull/6615
-* Enhance .gitignore to exclude common OS and log files by [@mohammadRezaei1380](https://github.com/mohammadRezaei1380) in https://github.com/laravel/laravel/pull/6619
+---
 
-## [v12.0.8](https://github.com/laravel/laravel/compare/v12.0.7...v12.0.8) - 2025-05-12
-
-* [12.x] Clean up URL formatting in README by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6601
-
-## [v12.0.7](https://github.com/laravel/laravel/compare/v12.0.6...v12.0.7) - 2025-04-15
-
-* Add `composer run test` command by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/laravel/pull/6598
-* Partner Directory Changes in ReadME by [@joshcirre](https://github.com/joshcirre) in https://github.com/laravel/laravel/pull/6599
-
-## [v12.0.6](https://github.com/laravel/laravel/compare/v12.0.5...v12.0.6) - 2025-04-08
-
-**Full Changelog**: https://github.com/laravel/laravel/compare/v12.0.5...v12.0.6
-
-## [v12.0.5](https://github.com/laravel/laravel/compare/v12.0.4...v12.0.5) - 2025-04-02
-
-* [12.x] Update `config/mail.php` to match the latest core configuration by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6594
-
-## [v12.0.4](https://github.com/laravel/laravel/compare/v12.0.3...v12.0.4) - 2025-03-31
-
-* Bump vite from 6.0.11 to 6.2.3 - Vulnerability patch by [@abdel-aouby](https://github.com/abdel-aouby) in https://github.com/laravel/laravel/pull/6586
-* Bump vite from 6.2.3 to 6.2.4 by [@thinkverse](https://github.com/thinkverse) in https://github.com/laravel/laravel/pull/6590
-
-## [v12.0.3](https://github.com/laravel/laravel/compare/v12.0.2...v12.0.3) - 2025-03-17
-
-* Remove reverted change from CHANGELOG.md by [@AJenbo](https://github.com/AJenbo) in https://github.com/laravel/laravel/pull/6565
-* Improves clarity in app.css file by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6569
-* [12.x] Refactor: Structural improvement for clarity by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6574
-* Bump axios from 1.7.9 to 1.8.2 - Vulnerability patch by [@abdel-aouby](https://github.com/abdel-aouby) in https://github.com/laravel/laravel/pull/6572
-* [12.x] Remove Unnecessarily [@source](https://github.com/source) by [@AhmedAlaa4611](https://github.com/AhmedAlaa4611) in https://github.com/laravel/laravel/pull/6584
-
-## [v12.0.2](https://github.com/laravel/laravel/compare/v12.0.1...v12.0.2) - 2025-03-04
-
-* Make the github test action run out of the box independent of the choice of testing framework by [@ndeblauw](https://github.com/ndeblauw) in https://github.com/laravel/laravel/pull/6555
-
-## [v12.0.1](https://github.com/laravel/laravel/compare/v12.0.0...v12.0.1) - 2025-02-24
-
-* [12.x] prefer stable stability by [@pataar](https://github.com/pataar) in https://github.com/laravel/laravel/pull/6548
-
-## [v12.0.0 (2025-??-??)](https://github.com/laravel/laravel/compare/v11.0.2...v12.0.0)
-
-Laravel 12 includes a variety of changes to the application skeleton. Please consult the diff to see what's new.
+**Note**: This changelog tracks changes specific to the Shoplynx application. For Laravel framework changes, see the official Laravel changelog.
