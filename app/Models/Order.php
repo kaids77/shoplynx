@@ -34,4 +34,12 @@ class Order extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    /**
+     * Check if order can be cancelled
+     */
+    public function canBeCancelled()
+    {
+        return $this->status === 'pending';
+    }
 }

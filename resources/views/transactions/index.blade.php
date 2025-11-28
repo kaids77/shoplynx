@@ -18,18 +18,6 @@
                     <p>Total Transactions</p>
                 </div>
             </div>
-            <div class="stat-card stat-warning">
-                <div class="stat-content">
-                    <h3>₱{{ number_format($stats['pending_amount'], 2) }}</h3>
-                    <p>Pending Amount</p>
-                </div>
-            </div>
-            <div class="stat-card stat-info">
-                <div class="stat-content">
-                    <h3>₱{{ number_format($stats['total_refunded'], 2) }}</h3>
-                    <p>Total Refunded</p>
-                </div>
-            </div>
         </div>
 
         <!-- Filters -->
@@ -57,7 +45,8 @@
 
                 <div class="filter-group">
                     <label for="date_from">From Date</label>
-                    <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="filter-input">
+                    <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}"
+                        class="filter-input">
                 </div>
 
                 <div class="filter-group">
@@ -82,14 +71,6 @@
                                 <h3>{{ $transaction->reference_number }}</h3>
                                 <p class="transaction-date">{{ $transaction->created_at->format('F d, Y h:i A') }}</p>
                             </div>
-                            <div class="transaction-badges">
-                                <span class="badge badge-{{ $transaction->transaction_type }}">
-                                    {{ ucfirst($transaction->transaction_type) }}
-                                </span>
-                                <span class="badge badge-{{ $transaction->status }}">
-                                    {{ ucfirst($transaction->status) }}
-                                </span>
-                            </div>
                         </div>
 
                         <div class="transaction-details">
@@ -106,7 +87,10 @@
                             @if($transaction->description)
                                 <div class="detail-row">
                                     <span class="detail-label">Description:</span>
-                                    <span class="detail-value">{{ $transaction->description }}</span>
+                                    <span class="detail-value" style="
+                                                        @if(str_contains($transaction->description, 'Completed')) color: #28a745; font-weight: bold; @endif
+                                                        @if(str_contains($transaction->description, 'Cancelled')) color: #dc3545; font-weight: bold; @endif
+                                                    ">{{ $transaction->description }}</span>
                                 </div>
                             @endif
                         </div>

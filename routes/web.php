@@ -62,5 +62,9 @@ Route::middleware(['auth', 'admin', 'prevent-back-history'])->group(function () 
         Route::put('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
         Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
         Route::get('/customers', [App\Http\Controllers\CustomerController::class, 'index'])->name('customers');
+
+        // Admin Orders
+        Route::get('/orders', [App\Http\Controllers\AdminOrderController::class, 'index'])->name('orders.index');
+        Route::put('/orders/{order}/status', [App\Http\Controllers\AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
     });
 });

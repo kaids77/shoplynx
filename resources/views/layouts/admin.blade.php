@@ -17,6 +17,7 @@
                 <ul class="nav-links">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('admin.products') }}">Products</a></li>
+                    <li><a href="{{ route('admin.orders.index') }}">Orders</a></li>
                     <li><a href="{{ route('admin.customers') }}">Customers</a></li>
                 </ul>
                 <div class="nav-actions">

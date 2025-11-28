@@ -41,6 +41,7 @@
                                 <h3>Total: ₱{{ number_format($order->total_price, 2) }}</h3>
                             </div>
 
+                            {{-- Pending status with cancellation option --}}
                             @if($order->status === 'pending')
                                 <div class="order-actions mt-3">
                                     <form action="{{ route('orders.cancel', $order->id) }}" method="POST"
@@ -49,6 +50,16 @@
                                         @method('PUT')
                                         <button type="submit" class="btn btn-danger">Cancel Order</button>
                                     </form>
+                                </div>
+                            @endif
+
+                            {{-- Shipped status --}}
+                            @if($order->status === 'shipped')
+                                <div class="order-actions mt-3">
+                                    <p class="text-info" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                        <strong>Order Shipped</strong>
+                                    </p>
+                                    <p class="text-muted" style="font-size: 0.85rem;">Your order is on the way.</p>
                                 </div>
                             @endif
                         </div>

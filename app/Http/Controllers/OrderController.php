@@ -23,14 +23,27 @@ class OrderController extends Controller
             return redirect()->route('orders.index')->with('error', 'Unauthorized action');
         }
 
-        // Check if order is still pending
-        if ($order->status !== 'pending') {
+        // Check if order can be cancelled
+        if (!$order->canBeCancelled()) {
             return redirect()->route('orders.index')->with('error', 'Only pending orders can be cancelled');
+        }
+
+        // Restore stock for cancelled items
+        foreach ($order->items as $item) {
+            $item->product->increment('stock_quantity', $item->quantity);
         }
 
         $order->status = 'cancelled';
         $order->save();
 
-        return redirect()->route('orders.index')->with('success', 'Order cancelled successfully');
+        // Update transaction description
+        $transaction = $order->transactions()->where('transaction_type', 'payment')->first();
+        if ($transaction) {
+            $transaction->update([
+                'description' => 'Payment for Order #' . $order->id . ' - Cancelled'
+            ]);
+        }
+
+        return redirect()->route('orders.index')->with('success', 'Order cancelled successfully. Stock has been restored.');
     }
 }

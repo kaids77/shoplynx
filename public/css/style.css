@@ -1130,3 +1130,39 @@ nav {
         text-align: center;
     }
 }
+
+/* Pagination Styling */
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+}
+
+.page-item .page-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.page-item.disabled .page-link {
+    color: var(--light-text);
+    pointer-events: none;
+    background-color: #f8f9fa;
+}
+
+.page-item .page-link:hover {
+    background-color: #e9ecef;
+    text-decoration: none;
+}
