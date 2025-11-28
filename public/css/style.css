@@ -757,8 +757,10 @@ nav {
     padding: 2rem;
     border-radius: 12px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: center;
+    text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     color: white;
@@ -770,7 +772,7 @@ nav {
 }
 
 .stat-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 }
 
 .stat-success {
@@ -778,16 +780,11 @@ nav {
 }
 
 .stat-warning {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 }
 
 .stat-info {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.stat-icon {
-    font-size: 3rem;
-    opacity: 0.9;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 }
 
 .stat-content h3 {
@@ -863,8 +860,8 @@ nav {
 }
 
 .transaction-card {
-    background: var(--white);
-    border: 1px solid var(--border-color);
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 1.5rem;
@@ -883,18 +880,18 @@ nav {
     align-items: flex-start;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid var(--accent-color);
+    border-bottom: 2px solid #f4f4f4;
 }
 
 .transaction-info h3 {
     margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--text-color);
+    color: #1a1a1a;
 }
 
 .transaction-date {
-    color: var(--light-text);
+    color: #666666;
     font-size: 0.9rem;
     margin: 0.5rem 0 0 0;
 }
@@ -944,7 +941,7 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: 0.75rem 0;
-    border-bottom: 1px solid var(--accent-color);
+    border-bottom: 1px solid #f4f4f4;
 }
 
 .detail-row:last-child {
@@ -953,11 +950,11 @@ nav {
 
 .detail-label {
     font-weight: 600;
-    color: var(--text-color);
+    color: #1a1a1a;
 }
 
 .detail-value {
-    color: var(--light-text);
+    color: #666666;
 }
 
 .order-link {
@@ -975,7 +972,7 @@ nav {
 .transaction-amount {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 2px solid var(--accent-color);
+    border-top: 2px solid #f4f4f4;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -984,7 +981,7 @@ nav {
 .amount-label {
     font-weight: 600;
     font-size: 1.1rem;
-    color: var(--text-color);
+    color: #1a1a1a;
 }
 
 .amount-value {
@@ -997,12 +994,56 @@ nav {
     color: #28a745;
 }
 
-/* Empty State */
-.empty-icon {
-    font-size: 5rem;
-    margin-bottom: 1rem;
+/* Transaction Products */
+.transaction-products {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 8px;
 }
 
+.transaction-products h4 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+}
+
+.products-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-name {
+    flex: 1;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.product-quantity {
+    margin: 0 1rem;
+    color: #666666;
+    font-size: 0.9rem;
+}
+
+.product-price {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* Empty State */
 .empty-state h3 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;

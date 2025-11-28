@@ -7,28 +7,24 @@
         <!-- Statistics Cards -->
         <div class="transaction-stats">
             <div class="stat-card stat-primary">
-                <div class="stat-icon">💰</div>
                 <div class="stat-content">
                     <h3>₱{{ number_format($stats['total_spent'], 2) }}</h3>
                     <p>Total Spent</p>
                 </div>
             </div>
             <div class="stat-card stat-success">
-                <div class="stat-icon">✅</div>
                 <div class="stat-content">
                     <h3>{{ $stats['total_transactions'] }}</h3>
                     <p>Total Transactions</p>
                 </div>
             </div>
             <div class="stat-card stat-warning">
-                <div class="stat-icon">⏳</div>
                 <div class="stat-content">
                     <h3>₱{{ number_format($stats['pending_amount'], 2) }}</h3>
                     <p>Pending Amount</p>
                 </div>
             </div>
             <div class="stat-card stat-info">
-                <div class="stat-icon">🔄</div>
                 <div class="stat-content">
                     <h3>₱{{ number_format($stats['total_refunded'], 2) }}</h3>
                     <p>Total Refunded</p>
@@ -61,8 +57,7 @@
 
                 <div class="filter-group">
                     <label for="date_from">From Date</label>
-                    <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}"
-                        class="filter-input">
+                    <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="filter-input">
                 </div>
 
                 <div class="filter-group">
@@ -116,6 +111,22 @@
                             @endif
                         </div>
 
+                        <!-- Products List -->
+                        @if($transaction->order && $transaction->order->items->count() > 0)
+                            <div class="transaction-products">
+                                <h4>Products:</h4>
+                                <ul class="products-list">
+                                    @foreach($transaction->order->items as $item)
+                                        <li class="product-item">
+                                            <span class="product-name">{{ $item->product->name }}</span>
+                                            <span class="product-quantity">x{{ $item->quantity }}</span>
+                                            <span class="product-price">₱{{ number_format($item->price * $item->quantity, 2) }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="transaction-amount {{ $transaction->transaction_type == 'refund' ? 'refund-amount' : '' }}">
                             <span class="amount-label">Amount:</span>
                             <span class="amount-value">
@@ -132,7 +143,6 @@
             </div>
         @else
             <div class="empty-state">
-                <div class="empty-icon">📊</div>
                 <h3>No Transactions Found</h3>
                 <p>You don't have any transactions yet or no transactions match your filters.</p>
                 <a href="{{ route('products.index') }}" class="btn btn-primary mt-3">Start Shopping</a>

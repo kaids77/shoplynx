@@ -12,7 +12,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $query = Transaction::where('user_id', Auth::id())
-            ->with('order');
+            ->with('order.items.product');
 
         // Filter by transaction type
         if ($request->has('type') && $request->type != 'all') {
