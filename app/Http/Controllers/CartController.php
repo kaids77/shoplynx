@@ -6,6 +6,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -129,6 +130,18 @@ class CartController extends Controller
                     'price' => $item->product->price,
                 ]);
             }
+
+            // Create transaction record
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'order_id' => $order->id,
+                'transaction_type' => 'payment',
+                'amount' => $total,
+                'payment_method' => $request->payment_method,
+                'status' => 'completed',
+                'reference_number' => 'TXN-' . strtoupper(uniqid()),
+                'description' => 'Payment for Order #' . $order->id,
+            ]);
 
             // Clear cart after order is placed
             Auth::user()->cartItems()->delete();

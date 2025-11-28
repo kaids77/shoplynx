@@ -31,6 +31,7 @@
                             @endif
                         </a>
                         <a href="{{ route('orders.index') }}" class="btn btn-outline">My Orders</a>
+                        <a href="{{ route('transactions.index') }}" class="btn btn-outline">Transactions</a>
                         @if(Auth::user()->role === 'admin')
                             <a href="{{ route('admin.dashboard') }}" class="btn btn-outline">Admin</a>
                         @endif
