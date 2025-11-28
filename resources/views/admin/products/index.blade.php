@@ -31,13 +31,13 @@
                             <td>{{ $product->name }}</td>
                             <td>₱{{ number_format($product->price, 2) }}</td>
                             <td>
-                                <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-outline">Edit</a>
-                                <form action="{{ route('admin.products.delete', $product) }}" method="POST"
-                                    style="display: inline-block;">
+                                <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-outline-primary"
+                                    style="display: inline-block; margin-right: 5px;">Edit</a>
+                                <form action="{{ route('admin.products.delete', $product) }}" method="POST" style="display: inline-block; margin-left: 5px;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                        onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                                 </form>
                             </td>
                         </tr>

@@ -1134,20 +1134,29 @@ nav {
 /* Pagination Styling */
 .pagination {
     display: flex;
+    align-items: center;
     list-style: none;
     padding: 0;
     margin: 0;
     gap: 5px;
 }
 
+.page-item {
+    display: flex;
+    align-items: center;
+}
+
 .page-item .page-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     color: var(--primary-color);
     text-decoration: none;
     transition: all 0.2s ease;
+    min-height: 38px;
 }
 
 .page-item.active .page-link {
@@ -1165,4 +1174,22 @@ nav {
 .page-item .page-link:hover {
     background-color: #e9ecef;
     text-decoration: none;
+}
+
+/* Admin Orders Table Styling */
+#dataTable td form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    flex-wrap: nowrap !important;
+}
+
+#dataTable td form select {
+    flex-shrink: 0;
+}
+
+#dataTable td form button {
+    flex-shrink: 0;
+    white-space: nowrap;
 }

@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price" class="form-control" step="0.01" value="{{ $product->price }}"
+                <input type="number" name="price" id="price" class="form-control" step="0.01" min="0" value="{{ $product->price }}"
                     required>
             </div>
             <div class="form-group">

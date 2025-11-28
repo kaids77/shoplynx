@@ -40,11 +40,11 @@
                                     </td>
                                     <td>
                                         <form action="{{ route('admin.orders.update-status', $order->id) }}" method="POST"
-                                            class="d-flex align-items-center">
+                                            style="display: flex; align-items: center; gap: 8px; margin: 0;">
                                             @csrf
                                             @method('PUT')
-                                            <select name="status" class="form-control form-control-sm mr-2"
-                                                style="width: auto;">
+                                            <select name="status" class="form-control form-control-sm"
+                                                style="width: auto; min-width: 120px;">
                                                 <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>
                                                     Pending</option>
                                                 <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>
@@ -54,7 +54,7 @@
                                                 <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>
                                                     Cancelled</option>
                                             </select>
-                                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                            <button type="submit" class="btn btn-sm btn-primary" style="white-space: nowrap;">Update</button>
                                         </form>
                                     </td>
                                 </tr>

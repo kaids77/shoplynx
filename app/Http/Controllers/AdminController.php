@@ -41,7 +41,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
             'description' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -70,7 +70,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
             'description' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -94,7 +94,14 @@ class AdminController extends Controller
 
     public function deleteProduct(Product $product)
     {
-        $product->delete();
-        return redirect()->route('admin.products')->with('success', 'Product deleted successfully');
+        \Illuminate\Support\Facades\Log::info('Attempting to delete product: ' . $product->id);
+        try {
+            $product->delete();
+            \Illuminate\Support\Facades\Log::info('Product deleted successfully: ' . $product->id);
+            return redirect()->route('admin.products')->with('success', 'Product deleted successfully');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error deleting product: ' . $e->getMessage());
+            return redirect()->route('admin.products')->with('error', 'Error deleting product: ' . $e->getMessage());
+        }
     }
 }
