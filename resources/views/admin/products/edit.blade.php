@@ -21,6 +21,11 @@
                     required>
             </div>
             <div class="form-group">
+                <label for="stock_quantity">Stock Quantity</label>
+                <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" min="0"
+                    value="{{ $product->stock_quantity }}" required>
+            </div>
+            <div class="form-group">
                 <label for="image">Product Image</label>
                 @if($product->image_path)
                     <div class="mb-2">

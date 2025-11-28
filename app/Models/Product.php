@@ -14,5 +14,11 @@ class Product extends Model
         'description',
         'price',
         'image_path',
+        'stock_quantity',
     ];
+
+    public function isInStock()
+    {
+        return $this->stock_quantity > 0;
+    }
 }

@@ -28,6 +28,11 @@
                 @foreach($products as $product)
                     <div class="product-card">
                         <div class="product-image">
+                            @if($product->stock_quantity <= 0)
+                                <div class="out-of-stock-badge">Out of Stock</div>
+                            @elseif($product->stock_quantity < 5)
+                                <div class="low-stock-badge">Only {{ $product->stock_quantity }} left!</div>
+                            @endif
                             @if($product->image_path)
                                 <img src="{{ asset('images/' . $product->image_path) }}" alt="{{ $product->name }}">
                             @else
@@ -39,9 +44,16 @@
                         <div class="product-info">
                             <h3>{{ $product->name }}</h3>
                             <p class="product-price">₱{{ number_format($product->price, 2) }}</p>
+                            <p class="product-stock" style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                                Stock: {{ $product->stock_quantity }}
+                            </p>
                             <div class="product-actions">
                                 <a href="{{ route('products.show', $product) }}" class="btn btn-outline btn-sm">View</a>
-                                <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary btn-sm">Add to Cart</a>
+                                @if($product->stock_quantity > 0)
+                                    <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary btn-sm">Add to Cart</a>
+                                @else
+                                    <button class="btn btn-secondary btn-sm" disabled>Out of Stock</button>
+                                @endif
                             </div>
                         </div>
                     </div>

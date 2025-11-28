@@ -18,6 +18,11 @@
                 <input type="number" name="price" id="price" class="form-control" step="0.01" required>
             </div>
             <div class="form-group">
+                <label for="stock_quantity">Stock Quantity</label>
+                <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" min="0" value="0"
+                    required>
+            </div>
+            <div class="form-group">
                 <label for="image">Product Image</label>
                 <input type="file" name="image" id="image" class="form-control">
             </div>

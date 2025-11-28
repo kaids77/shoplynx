@@ -32,6 +32,14 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <h4 class="nomargin">{{ $item->product->name }}</h4>
+                                            <p class="text-muted" style="font-size: 0.9rem; margin: 0;">Stock:
+                                                {{ $item->product->stock_quantity }}</p>
+                                            @if($item->product->stock_quantity < $item->quantity)
+                                                <p class="text-danger" style="font-size: 0.8rem;">Only
+                                                    {{ $item->product->stock_quantity }} available!</p>
+                                            @elseif($item->product->stock_quantity < 5)
+                                                <p class="text-warning" style="font-size: 0.8rem;">Low Stock!</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>

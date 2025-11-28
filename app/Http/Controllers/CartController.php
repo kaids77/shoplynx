@@ -23,11 +23,18 @@ class CartController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        if ($product->stock_quantity <= 0) {
+            return redirect()->back()->with('error', 'Product is out of stock.');
+        }
+
         $cartItem = CartItem::where('user_id', Auth::id())
             ->where('product_id', $id)
             ->first();
 
         if ($cartItem) {
+            if ($cartItem->quantity + 1 > $product->stock_quantity) {
+                return redirect()->back()->with('error', 'Cannot add more items than available stock.');
+            }
             $cartItem->quantity++;
             $cartItem->save();
         } else {
@@ -92,8 +99,6 @@ class CartController extends Controller
     public function processCheckout(Request $request)
     {
         $request->validate([
-            'customer_name' => 'required|string',
-            'customer_email' => 'required|email',
             'customer_phone' => 'required|string|size:11',
             'shipping_address' => 'required|string',
             'payment_method' => 'required|string',
@@ -110,42 +115,54 @@ class CartController extends Controller
             $total += $item->product->price * $item->quantity;
         }
 
-        DB::transaction(function () use ($request, $total, $cartItems) {
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'customer_name' => $request->customer_name,
-                'customer_email' => $request->customer_email,
-                'customer_phone' => $request->customer_phone,
-                'status' => 'pending',
-                'payment_method' => $request->payment_method,
-                'total_price' => $total,
-                'shipping_address' => $request->shipping_address,
-            ]);
-
-            foreach ($cartItems as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item->product_id,
-                    'quantity' => $item->quantity,
-                    'price' => $item->product->price,
+        try {
+            DB::transaction(function () use ($request, $total, $cartItems) {
+                $order = Order::create([
+                    'user_id' => Auth::id(),
+                    'customer_name' => Auth::user()->name,
+                    'customer_email' => Auth::user()->email,
+                    'customer_phone' => $request->customer_phone,
+                    'status' => 'pending',
+                    'payment_method' => $request->payment_method,
+                    'total_price' => $total,
+                    'shipping_address' => $request->shipping_address,
                 ]);
-            }
 
-            // Create transaction record
-            Transaction::create([
-                'user_id' => Auth::id(),
-                'order_id' => $order->id,
-                'transaction_type' => 'payment',
-                'amount' => $total,
-                'payment_method' => $request->payment_method,
-                'status' => 'completed',
-                'reference_number' => 'TXN-' . strtoupper(uniqid()),
-                'description' => 'Payment for Order #' . $order->id,
-            ]);
+                foreach ($cartItems as $item) {
+                    // Check stock again
+                    if ($item->product->stock_quantity < $item->quantity) {
+                        throw new \Exception("Not enough stock for product: " . $item->product->name);
+                    }
 
-            // Clear cart after order is placed
-            Auth::user()->cartItems()->delete();
-        });
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'price' => $item->product->price,
+                    ]);
+
+                    // Deduct stock
+                    $item->product->decrement('stock_quantity', $item->quantity);
+                }
+
+                // Create transaction record
+                Transaction::create([
+                    'user_id' => Auth::id(),
+                    'order_id' => $order->id,
+                    'transaction_type' => 'payment',
+                    'amount' => $total,
+                    'payment_method' => $request->payment_method,
+                    'status' => 'completed',
+                    'reference_number' => 'TXN-' . strtoupper(uniqid()),
+                    'description' => 'Payment for Order #' . $order->id,
+                ]);
+
+                // Clear cart after order is placed
+                Auth::user()->cartItems()->delete();
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
